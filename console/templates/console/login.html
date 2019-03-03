@@ -1,0 +1,30 @@
+{% extends 'console/base.html' %}
+{% block content %}
+{% load static %}
+{% load socialaccount %}
+
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+
+<!---<a href="{% provider_login_url 'spotify' %}" >Spotify</a>-->
+
+<div class="container">
+  <div class="kpx_login">
+      <h3 class="kpx_authTitle">Login with Spotify </h3>
+  </div><br>
+  <div>
+    <a href="{% provider_login_url 'spotify' %}" data-toggle="tooltip" title="Spotify">
+      <i class="fa fa-spotify fa-5x fa-spin" style="text-align:center;display:block;color:rgb(53, 228, 53)"></i>  <!--btn btn-lg kpx_btn-spotify  -->
+      <!--<span class="hidden-xs" ></span>-->
+    </a>
+  </div>
+</div>	    	
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+{% endblock %}

@@ -1,0 +1,48 @@
+
+version: '3'
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - datavolume:/var/lib/postgresql/data
+    networks: 
+      - db_network
+    env_file:
+      - ./config/databaseconfig
+  nginx:
+    build: ./nginx
+    command: [nginx-debug, '-g', 'daemon off;']
+    ports:
+      - 8000:80
+    volumes:
+      - staticvolume:/collected-static
+    networks: 
+      - nginx_network
+    depends_on:
+      - web
+  web:
+    build: .
+    command: /code/start.sh
+    volumes:
+      - staticvolume:/collected-static
+      - .:/code
+    depends_on:
+      - db
+    networks:
+      - nginx_network
+      - db_network
+    expose:
+      - 8000
+
+
+networks: 
+  nginx_network:
+    driver: bridge
+  db_network:
+    driver: bridge
+volumes:
+  datavolume:
+  staticvolume:
+
+
