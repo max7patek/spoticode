@@ -70,10 +70,8 @@ const play = (spotify_uri) => {
 
 
 function print(stuff) {
-    document.getElementById("output").innerHTML += stuff + '\n';
+    document.getElementById("output").innerHTML += JSON.stringify(stuff) + '\n';
 }
-
-console.log = print;
 
 function run() {
     document.getElementById("output").innerHTML = "";
@@ -90,11 +88,22 @@ function run() {
         if (data['error']) // TODO confirm that this is actuall success code
           alert(data['result']);
         else
-          print(data['result'])
+          print(data['result']);
       },
     });
-    //console.log(scriptContent.value); 
-    eval(scriptContent.value);
+    
+    // clear all background user processes
+    var id = window.setTimeout(function() {}, 0);
+    while (id--) {
+        window.clearTimeout(id); // will do nothing if no timeout with id is present
+    }
+    
+    try {
+      eval(scriptContent.value);
+    } catch (err) {
+      print(err.message);
+      console.log(err);
+    }
 }
 
 // (function saver() {
